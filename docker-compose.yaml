@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  config:
+    image: config:0.0.1-SNAPSHOT
+    container_name: config
+    ports:
+      - "8888:8888"
+  gif-microservice:
+    image: gif-microservice:0.0.1-SNAPSHOT
+    container_name: gif-microservice
+    ports:
+      - "8081:8081"
+    links:
+      - config:config
+    restart: always
+  test-task:
+    image: alfabank-testtask:0.0.1-SNAPSHOT
+    container_name: test-task
+    ports:
+      - "8080:8080"
+    links:
+      - gif-microservice:gif-microservice
+      - config:config
+    restart: always
